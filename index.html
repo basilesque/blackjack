@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="favicon.png">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+        <title>Blackjack!</title>
+        <style>
+            body {
+                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', Arial, sans-serif;
+                background-image: url("table.png");
+                background-size: cover;
+                font-weight: bold;
+                color: white;
+                text-align: center;
+                font-size: 25px;
+            }
+
+            #title {
+                color: goldenrod;
+                font-size: 65px;
+            }            
+
+            #message-el {
+                font-style: italic;
+            }                                 
+
+            #start-game-btn, #new-card-btn{
+                color: #016f32;
+                background-color: goldenrod;
+                width: 250px;
+                padding: 10px;
+                border: none;
+                font-weight: bold;
+                border-radius: 6px;  
+                margin-bottom: 7px;              
+            }
+            
+            /* button animation */
+            #start-game-btn:hover, #new-card-btn:hover {
+                transform: scale(1.02);
+            }
+
+            #start-game-btn:active, #new-card-btn:active {
+                transform: scale(0.98);
+            }
+            
+            /* makes the user not select or drag anyhting on certain browsers */
+            html {
+                user-select: none;
+                -webkit-user-drag: none;                
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+            }
+        </style>        
+    </head>
+    <body>    
+        <h1 id="title">Blackjack</h1> 
+        <p id="message-el">Want to play a round?</p>
+        <p id="cards-el">Cards:</p>
+        <p id="sum-el">Sum:</p> 
+        <button onclick="startGame()" id="start-game-btn">START GAME</button> 
+        <br>
+        <button onclick="newCard()" id="new-card-btn">NEW CARD</button>
+        <!-- <p id="player-el"></p> -->
+        
+        <script>       
+            //this is an array     
+            let cards = []
+            let sum = 0
+            let hasBlackJack = false
+            let isAlive = false            
+            let message = ""  
+
+            let messageEl = document.getElementById("message-el")   
+            let sumEl = document.getElementById("sum-el")      
+            let cardsEl = document.getElementById("cards-el")
+
+            //this is an object
+            let player = {
+                name: "Per",
+                chips: 200
+            }            
+
+            let playerEl = document.getElementById("player-el")
+            playerEl.textContent = player.name + ": $" + player.chips
+
+            function startGame() {
+                let firstCard = getRandomCard()
+                let secondCard = getRandomCard()
+                cards = [firstCard, secondCard]
+                sum = firstCard + secondCard
+                isAlive = true
+                renderGame()
+            }
+
+            function renderGame() {
+                if (sum < 21) {
+                    message = "Do you want to draw a new card?"
+                } else if (sum === 21) {
+                    message = "You've got Blackjack!"
+                    hasBlackJack = true
+                } else if (sum > 21) {
+                    message = "You're out of the game!"
+                    isAlive = false                    
+                    //if (confirm ("Want to play again?")) {
+                    //    location.reload()
+                    //}           
+                    // this is commented out because it doesnt update the game score before showing the alert, so the user doesnt see that theyve lost on the score          
+                }
+
+                messageEl.textContent = message
+                cardsEl.textContent = "Cards: " 
+                sumEl.textContent = "Sum: " + sum  
+                
+                // this is gonna count from 0 until the number of elements on the cards array one by one, because "++" means increase it by one each time
+                // for (starting place; stopping place; step count) {} basic structure
+                for (let i = 0; i < cards.length; i++) {
+                    cardsEl.textContent += cards[i] + ", "
+                }                
+            }
+
+            function getRandomCard() {
+                // return function returns the value you get to the variable/let
+                // math floor basically rounds the number down and math random gives a random number between 0 and 1, if you mutiply it by 10 and floor it, it gives you numbers between 0 and 9, so you and 1 to all of them so that they become 1 to 10
+                let randomNumber = Math.floor(Math.random() * 13) + 1
+
+                if (randomNumber > 10) {
+                    return randomNumber = 10
+                } else if (randomNumber === 1) {
+                    return randomNumber = 11
+                } else {
+                    return randomNumber
+                }
+            }
+            
+            function newCard() {
+                //works only when the user hasnt won and can draw cards
+                // "===" means "strictly equal", "&&"" means "and"
+                if (hasBlackJack === false && isAlive === true) { 
+                    let card = getRandomCard()
+                    sum += card
+                    // push() adds a new irem to the array, to the bottom to be specific, and pop() would remove the last item
+                    // shift() would add to the start of the array while unshift() would remove the first item                    
+                    cards.push(card)
+                    renderGame()
+                }
+            }       
+        </script>
+    </body>
+</html>
