@@ -1,0 +1,50 @@
+body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', Arial, sans-serif;
+    background-image: url("table.png");
+    background-size: cover;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    font-size: 25px;
+}
+
+#title {
+    color: goldenrod;
+    font-size: 65px;
+}
+
+#message-el {
+    font-style: italic;
+}
+
+#start-game-btn,
+#new-card-btn {
+    color: #016f32;
+    background-color: goldenrod;
+    width: 250px;
+    padding: 10px;
+    border: none;
+    font-weight: bold;
+    border-radius: 6px;
+    margin-bottom: 7px;
+}
+
+/* button animation */
+#start-game-btn:hover,
+#new-card-btn:hover {
+    transform: scale(1.02);
+}
+
+#start-game-btn:active,
+#new-card-btn:active {
+    transform: scale(0.98);
+}
+
+/* makes the user not select or drag anyhting on certain browsers */
+html {
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
